@@ -1,31 +1,24 @@
 package com.driver.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="image")
+@Table(name = "Image")
 public class Image {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String description;
-
-    private String dimensions;
-
-    public Image() {
-    }
-
-    public Image(String description, String dimensions) {
-        this.description = description;
-        this.dimensions = dimensions;
-    }
+    private String dimensions; // in the format HXD, for example: 720X480
+    @ManyToOne
+    @JoinColumn
+    private Blog blog;
 
     public int getId() {
         return id;
-
     }
 
     public void setId(int id) {
@@ -43,7 +36,6 @@ public class Image {
     public String getDimensions() {
         return dimensions;
     }
-
     public void setDimensions(String dimensions) {
         this.dimensions = dimensions;
     }
@@ -55,8 +47,4 @@ public class Image {
     public void setBlog(Blog blog) {
         this.blog = blog;
     }
-
-    @ManyToOne
-    @JoinColumn
-    private Blog blog;
 }

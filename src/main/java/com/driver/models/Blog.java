@@ -1,42 +1,45 @@
 package com.driver.models;
 
-import org.hibernate.annotations.CreationTimestamp;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="blog")
+@Table(name = "Blog")
 public class Blog {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String title;
-
     private String content;
-
-    @CreationTimestamp
-    @Temporal(value = TemporalType.TIMESTAMP)
     private Date pubDate;
 
-    public Blog(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public User getUser() {
+        return user;
     }
 
-    public Date getPubDate() {
-        return pubDate;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setPubDate(Date pubDate) {
-        this.pubDate = pubDate;
+    public List<Image> getImageList() {
+        return imageList;
     }
 
-    public Blog() {
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
     }
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    private List<Image> imageList;
 
     public int getId() {
         return id;
@@ -62,26 +65,10 @@ public class Blog {
         this.content = content;
     }
 
-    public User getUser() {
-        return user;
+    public Date getPubDate() {
+        return pubDate;
     }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
     }
-
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<Image> imageList) {
-        this.imageList = imageList;
-    }
-
-    @ManyToOne
-    @JoinColumn
-    private User user;
-
-    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
-    private List<Image> imageList;
 }
